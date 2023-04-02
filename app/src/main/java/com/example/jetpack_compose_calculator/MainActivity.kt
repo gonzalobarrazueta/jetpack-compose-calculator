@@ -32,21 +32,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun textField() {
-
+fun NumberTextField() {
+    val pattern = remember { Regex("^\\d+\$") }
     var firstNumber by remember { mutableStateOf("") }
 
     OutlinedTextField(
         value = firstNumber,
-        onValueChange = { firstNumber = it },
+        onValueChange = {
+            if (it.isEmpty() || it.matches(pattern)) {
+                firstNumber = it
+            }
+        },
         label = { Text(text = "Add number") },
         modifier = Modifier.border(1.dp, MaterialTheme.colors.primary),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }
 
 @Preview
 @Composable
 fun PreviewTextField() {
-    textField();
+    NumberTextField()
 }
