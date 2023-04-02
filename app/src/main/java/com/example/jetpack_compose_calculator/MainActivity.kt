@@ -3,11 +3,11 @@ package com.example.jetpack_compose_calculator
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,10 +24,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    Calculator()
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun Calculator() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        NumberTextField();
+        Spacer(modifier = Modifier.height(30.dp))
+        NumberTextField();
     }
 }
 
@@ -44,12 +57,11 @@ fun NumberTextField() {
             }
         },
         label = { Text(text = "Add number") },
-        modifier = Modifier.border(1.dp, MaterialTheme.colors.primary),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }
 
-@Preview
+//@Preview
 @Composable
 fun PreviewTextField() {
     NumberTextField()
