@@ -34,13 +34,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun textField() {
 
-    var firstNumber by remember { mutableStateOf("Add a number") }
+    var firstNumber by remember { mutableStateOf("") }
 
     OutlinedTextField(
         value = firstNumber,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        modifier = Modifier.border(1.dp, MaterialTheme.colors.primary),
         onValueChange = { firstNumber = it },
+        label = { Text(text = "Add number") },
+        modifier = Modifier.border(1.dp, MaterialTheme.colors.primary),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 }
 
