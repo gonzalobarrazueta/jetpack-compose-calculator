@@ -12,12 +12,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.jetpack_compose_calculator.ui.theme.JetpackcomposecalculatorTheme
 
 class MainActivity : ComponentActivity() {
@@ -49,19 +51,21 @@ fun Calculator() {
         Spacer(modifier = Modifier.height(30.dp))
         NumberTextField()
         Text(text = "The operator selected is $operatorType")
+        Spacer(modifier = Modifier.height(30.dp))
+        CalculateButton()
     }
 }
 
 @Composable
 fun NumberTextField() {
     val pattern = remember { Regex("^\\d+\$") }
-    var firstNumber by remember { mutableStateOf("") }
+    var number by remember { mutableStateOf("") }
 
     OutlinedTextField(
-        value = firstNumber,
+        value = number,
         onValueChange = {
             if (it.isEmpty() || it.matches(pattern)) {
-                firstNumber = it
+                number = it
             }
         },
         label = { Text(text = "Add number") },
@@ -73,13 +77,14 @@ fun NumberTextField() {
 fun ListOfOperators() {
     LazyRow {
         items(operatorsFunctionality) { operator ->
-            ShowMathOperator(operator)
+            MathOperator(operator)
+            Spacer(modifier = Modifier.width(10.dp))
         }
     }
 }
 
 @Composable
-fun ShowMathOperator(operator: MathOperator) {
+fun MathOperator(operator: MathOperator) {
     IconButton(
         onClick = { operator.onClick() },
         modifier = Modifier
@@ -91,8 +96,28 @@ fun ShowMathOperator(operator: MathOperator) {
     }
 }
 
+@Composable
+fun CalculateButton() {
+    Button(
+        onClick = { }
+    ) {
+        Text(
+            text = "Calculate",
+            style = MaterialTheme.typography.button.copy(fontSize = 20.sp)
+        )
+
+        IconButton(onClick = { }) {
+            Icon(
+                Icons.Outlined.Calculate,
+                contentDescription = "Perform math operation",
+                modifier = Modifier.size(35.dp)
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewComponent() {
-    ShowMathOperator(operator = MathOperator(Icons.Outlined.Add, "Plus", {}))
+    MathOperator(operator = MathOperator(Icons.Outlined.Add, "Plus", {}))
 }
