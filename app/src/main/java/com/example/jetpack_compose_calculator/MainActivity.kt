@@ -49,7 +49,6 @@ fun Calculator() {
         Spacer(modifier = Modifier.height(30.dp))
         ListOfOperators()
         Spacer(modifier = Modifier.height(30.dp))
-        NumberTextField()
         Text(text = "The operator selected is $operatorType")
         Spacer(modifier = Modifier.height(30.dp))
         CalculateButton()
