@@ -26,5 +26,3 @@ val operatorsFunctionality = listOf(
         operatorType = "minus"
     })
 )
-
-var calculateButtonClicked by mutableStateOf(false)
