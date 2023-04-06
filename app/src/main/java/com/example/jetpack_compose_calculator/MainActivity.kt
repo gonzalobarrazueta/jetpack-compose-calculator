@@ -181,6 +181,12 @@ fun performOperation(): Int {
                 result *= number
             }
         }
+        "division" -> {
+            result = numbers[0]
+            for (i in 1 until numbers.size) {
+                result /= numbers[i]
+            }
+        }
         "exponent" -> {
             result = numbers[0]
             for (i in 1 until numbers.size) {

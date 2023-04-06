@@ -1,10 +1,7 @@
 package com.example.jetpack_compose_calculator
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Percent
-import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +28,10 @@ val operatorsFunctionality = listOf(
     MathOperator(Icons.Default.Clear, "Multiplicación", {
         operatorClicked = true
         operatorType = "multiplication"
+    }),
+    MathOperator(Icons.Filled.SafetyDivider, "División", {
+        operatorClicked = true
+        operatorType = "division"
     }),
     MathOperator(Icons.Default.KeyboardArrowUp, "Potencia", {
         operatorClicked = true
