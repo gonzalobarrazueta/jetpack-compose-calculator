@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
 fun Calculator() {
 
     var number = remember { mutableStateOf("") }
+    var calculatedValue = remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -56,16 +57,26 @@ fun Calculator() {
         Spacer(modifier = Modifier.height(30.dp))
         Text(text = "The operator selected is $operatorType")
         Spacer(modifier = Modifier.height(30.dp))
+
         if (operatorClicked && number.value.isNotEmpty()) {
             numbers.add(number.value.toInt())
-            Text(text = "Numbers in the array")
-            for (number in numbers) {
-                Text(text = "$number\n")
-            }
             operatorClicked = false
             number.value = ""
         }
-        CalculateButton()
+
+        // for development purposes, print the array numbers
+        Text(text = "Numbers in the array")
+        if (numbers.isNotEmpty()) {
+            for (number in numbers) {
+                Text(text = "$number\n")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(30.dp))
+        CalculateButton(number, calculatedValue)
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Text(text = "The result is ${calculatedValue.value}")
     }
 }
 
@@ -118,9 +129,20 @@ fun MathOperator(operator: MathOperator) {
 }
 
 @Composable
-fun CalculateButton() {
+fun CalculateButton(number: MutableState<String>, calculatedValue: MutableState<Int>) {
     Button(
-        onClick = { calculateButtonClicked = true }
+        onClick = {
+            // there's 1 last value that needs to be added to the array
+            if (number.value.isNotEmpty()) {
+                numbers.add(number.value.toInt())
+            }
+
+            if (numbers.isNotEmpty()) {
+                calculatedValue.value = performOperation()
+                number.value = ""
+                numbers.clear()
+            }
+        }
     ) {
         Text(
             text = "Calculate",
@@ -135,6 +157,26 @@ fun CalculateButton() {
             )
         }
     }
+}
+
+fun performOperation(): Int {
+    var result = 0
+
+    when (operatorType) {
+        "plus" -> {
+            for (number in numbers) {
+                result += number
+            }
+        }
+        "minus" -> {
+            result = numbers[0]
+            for (i in 1 until numbers.size) {
+                result -= numbers[i]
+            }
+        }
+        else -> result = 0
+    }
+    return result
 }
 
 @Preview
