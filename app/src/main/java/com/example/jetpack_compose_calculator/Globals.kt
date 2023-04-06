@@ -2,6 +2,8 @@ package com.example.jetpack_compose_calculator
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.getValue
@@ -18,16 +20,24 @@ var operatorClicked: Boolean by mutableStateOf(false)
 var numbers = mutableListOf<Int>()
 
 val operatorsFunctionality = listOf(
-    MathOperator(Icons.Outlined.Add, "Plus", {
+    MathOperator(Icons.Outlined.Add, "Adición", {
         operatorClicked = true
         operatorType = "plus"
     }),
-    MathOperator(Icons.Default.Remove, "Minus", {
+    MathOperator(Icons.Default.Remove, "Substracción", {
         operatorClicked = true
         operatorType = "minus"
     }),
-    MathOperator(Icons.Default.Clear, "Multiplication", {
+    MathOperator(Icons.Default.Clear, "Multiplicación", {
         operatorClicked = true
         operatorType = "multiplication"
+    }),
+    MathOperator(Icons.Default.KeyboardArrowUp, "Potencia", {
+        operatorClicked = true
+        operatorType = "exponent"
+    }),
+    MathOperator(Icons.Default.Percent, "Modulo", {
+        operatorClicked = true
+        operatorType = "module"
     })
 )

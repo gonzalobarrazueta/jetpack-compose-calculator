@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpack_compose_calculator.ui.theme.JetpackcomposecalculatorTheme
+import kotlin.math.pow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -178,6 +179,18 @@ fun performOperation(): Int {
             result = 1
             for (number in numbers) {
                 result *= number
+            }
+        }
+        "exponent" -> {
+            result = numbers[0]
+            for (i in 1 until numbers.size) {
+                result = result.toDouble().pow(numbers[i].toDouble()).toInt()
+            }
+        }
+        "module" -> {
+            result = numbers[0]
+            for (i in 1 until numbers.size) {
+                result %= numbers[i]
             }
         }
         else -> result = 0
