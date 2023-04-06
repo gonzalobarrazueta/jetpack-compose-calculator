@@ -174,6 +174,12 @@ fun performOperation(): Int {
                 result -= numbers[i]
             }
         }
+        "multiplication" -> {
+            result = 1
+            for (number in numbers) {
+                result *= number
+            }
+        }
         else -> result = 0
     }
     return result

@@ -1,6 +1,7 @@
 package com.example.jetpack_compose_calculator
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.getValue
@@ -24,5 +25,9 @@ val operatorsFunctionality = listOf(
     MathOperator(Icons.Default.Remove, "Minus", {
         operatorClicked = true
         operatorType = "minus"
+    }),
+    MathOperator(Icons.Default.Clear, "Multiplication", {
+        operatorClicked = true
+        operatorType = "multiplication"
     })
 )
