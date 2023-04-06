@@ -11,9 +11,20 @@ import androidx.compose.ui.graphics.vector.ImageVector
 data class MathOperator(val icon: ImageVector, val description: String, val onClick: () -> Unit)
 
 var operatorType: String by mutableStateOf("")
+var operatorClicked: Boolean by mutableStateOf(false)
+
+// this variable will be used to store the numbers that will be used to perform any math operation
+var numbers = mutableListOf<Int>()
 
 val operatorsFunctionality = listOf(
-    MathOperator(Icons.Outlined.Add, "Plus", { operatorType = "plus" }),
-    MathOperator(Icons.Default.Remove, "Minus", { operatorType = "minus" })
+    MathOperator(Icons.Outlined.Add, "Plus", {
+        operatorClicked = true
+        operatorType = "plus"
+    }),
+    MathOperator(Icons.Default.Remove, "Minus", {
+        operatorClicked = true
+        operatorType = "minus"
+    })
 )
 
+var calculateButtonClicked by mutableStateOf(false)
