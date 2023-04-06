@@ -42,17 +42,29 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Calculator() {
+
+    var number = remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppBar()
-        NumberTextField()
+        NumberTextField(number)
         Spacer(modifier = Modifier.height(30.dp))
         ListOfOperators()
         Spacer(modifier = Modifier.height(30.dp))
         Text(text = "The operator selected is $operatorType")
         Spacer(modifier = Modifier.height(30.dp))
+        if (operatorClicked && number.value.isNotEmpty()) {
+            numbers.add(number.value.toInt())
+            Text(text = "Numbers in the array")
+            for (number in numbers) {
+                Text(text = "$number\n")
+            }
+            operatorClicked = false
+            number.value = ""
+        }
         CalculateButton()
     }
 }
@@ -67,15 +79,14 @@ fun AppBar() {
 }
 
 @Composable
-fun NumberTextField() {
+fun NumberTextField(number: MutableState<String> ) {
     val pattern = remember { Regex("^\\d+\$") }
-    var number by remember { mutableStateOf("") }
 
     OutlinedTextField(
-        value = number,
+        value = number.value,
         onValueChange = {
             if (it.isEmpty() || it.matches(pattern)) {
-                number = it
+                number.value = it
             }
         },
         label = { Text(text = "Add number") },
@@ -109,7 +120,7 @@ fun MathOperator(operator: MathOperator) {
 @Composable
 fun CalculateButton() {
     Button(
-        onClick = { }
+        onClick = { calculateButtonClicked = true }
     ) {
         Text(
             text = "Calculate",
