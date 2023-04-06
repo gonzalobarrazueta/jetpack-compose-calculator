@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
 fun Calculator() {
 
     var number = remember { mutableStateOf("") }
-    var calculatedValue = remember { mutableStateOf(0) }
+    var calculatedValue = remember { mutableStateOf(0.0f) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -60,7 +60,7 @@ fun Calculator() {
         Spacer(modifier = Modifier.height(30.dp))
 
         if (operatorClicked && number.value.isNotEmpty()) {
-            numbers.add(number.value.toInt())
+            numbers.add(number.value.toFloat())
             operatorClicked = false
             number.value = ""
         }
@@ -77,7 +77,7 @@ fun Calculator() {
         CalculateButton(number, calculatedValue)
         Spacer(modifier = Modifier.height(30.dp))
 
-        Text(text = "The result is ${calculatedValue.value}")
+        Text(text = "The result is ${String.format("%.2f", calculatedValue.value)}")
     }
 }
 
@@ -92,7 +92,7 @@ fun AppBar() {
 
 @Composable
 fun NumberTextField(number: MutableState<String> ) {
-    val pattern = remember { Regex("^\\d+\$") }
+    val pattern = remember { Regex("^[0-9.]+\$") }
 
     OutlinedTextField(
         value = number.value,
@@ -108,7 +108,10 @@ fun NumberTextField(number: MutableState<String> ) {
 
 @Composable
 fun ListOfOperators() {
-    LazyRow {
+    LazyRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
         items(operatorsFunctionality) { operator ->
             MathOperator(operator)
             Spacer(modifier = Modifier.width(10.dp))
@@ -130,12 +133,12 @@ fun MathOperator(operator: MathOperator) {
 }
 
 @Composable
-fun CalculateButton(number: MutableState<String>, calculatedValue: MutableState<Int>) {
+fun CalculateButton(number: MutableState<String>, calculatedValue: MutableState<Float>) {
     Button(
         onClick = {
             // there's 1 last value that needs to be added to the array
             if (number.value.isNotEmpty()) {
-                numbers.add(number.value.toInt())
+                numbers.add(number.value.toFloat())
             }
 
             if (numbers.isNotEmpty()) {
@@ -160,8 +163,8 @@ fun CalculateButton(number: MutableState<String>, calculatedValue: MutableState<
     }
 }
 
-fun performOperation(): Int {
-    var result = 0
+fun performOperation(): Float {
+    var result = 0.0f
 
     when (operatorType) {
         "plus" -> {
@@ -176,7 +179,7 @@ fun performOperation(): Int {
             }
         }
         "multiplication" -> {
-            result = 1
+            result = 1f
             for (number in numbers) {
                 result *= number
             }
@@ -190,7 +193,7 @@ fun performOperation(): Int {
         "exponent" -> {
             result = numbers[0]
             for (i in 1 until numbers.size) {
-                result = result.toDouble().pow(numbers[i].toDouble()).toInt()
+                result = result.pow(numbers[i])
             }
         }
         "module" -> {
@@ -199,7 +202,7 @@ fun performOperation(): Int {
                 result %= numbers[i]
             }
         }
-        else -> result = 0
+        else -> result = 0.0f
     }
     return result
 }
