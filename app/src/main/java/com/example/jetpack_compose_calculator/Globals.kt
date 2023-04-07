@@ -9,12 +9,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class MathOperator(val icon: ImageVector, val description: String, val onClick: () -> Unit)
+data class OperationElement(val number: Float, val operator: String?)
 
 var operatorType: String by mutableStateOf("")
 var operatorClicked: Boolean by mutableStateOf(false)
 
 // this variable will be used to store the numbers that will be used to perform any math operation
-var numbers = mutableListOf<Float>()
+var operations = mutableListOf<OperationElement>()
 
 val operatorsFunctionality = listOf(
     MathOperator(Icons.Outlined.Add, "Adición", {

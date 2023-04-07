@@ -52,6 +52,10 @@ fun Calculator() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppBar()
+        Text(
+            text = "Calculate a number",
+            fontSize = 15.sp
+        )
         NumberTextField(number)
         Spacer(modifier = Modifier.height(30.dp))
         ListOfOperators()
@@ -60,16 +64,19 @@ fun Calculator() {
         Spacer(modifier = Modifier.height(30.dp))
 
         if (operatorClicked && number.value.isNotEmpty()) {
-            numbers.add(number.value.toFloat())
+            operations.add(OperationElement(number.value.toFloat(), operatorType))
+
             operatorClicked = false
             number.value = ""
         }
 
-        // for development purposes, print the array numbers
+        // for development purposes, print the operations array
         Text(text = "Numbers in the array")
-        if (numbers.isNotEmpty()) {
-            for (number in numbers) {
-                Text(text = "$number\n")
+        if (operations.isNotEmpty()) {
+            for (operation in operations) {
+                if (operation.operator != null) {
+                    Text(text = "${operation.number} ${operation.operator} ")
+                }
             }
         }
 
@@ -77,7 +84,10 @@ fun Calculator() {
         CalculateButton(number, calculatedValue)
         Spacer(modifier = Modifier.height(30.dp))
 
-        Text(text = "The result is ${String.format("%.2f", calculatedValue.value)}")
+        Text(
+            text = "The result is ${String.format("%.2f", calculatedValue.value)}",
+            fontSize = 20.sp
+        )
     }
 }
 
@@ -138,13 +148,12 @@ fun CalculateButton(number: MutableState<String>, calculatedValue: MutableState<
         onClick = {
             // there's 1 last value that needs to be added to the array
             if (number.value.isNotEmpty()) {
-                numbers.add(number.value.toFloat())
+                operations.add(OperationElement(number.value.toFloat(), null))
             }
 
-            if (numbers.isNotEmpty()) {
+            if (operations.isNotEmpty()) {
                 calculatedValue.value = performOperation()
                 number.value = ""
-                numbers.clear()
             }
         }
     ) {
@@ -164,46 +173,27 @@ fun CalculateButton(number: MutableState<String>, calculatedValue: MutableState<
 }
 
 fun performOperation(): Float {
-    var result = 0.0f
+    var result = operations[0].number
+    var op = operations[0].operator
+    var num: Float
 
-    when (operatorType) {
-        "plus" -> {
-            for (number in numbers) {
-                result += number
-            }
+    for (i in 1 until operations.size) {
+
+        num = operations[i].number
+
+        when (op) {
+            "plus" -> result += num
+            "minus" -> result -= num
+            "multiplication" -> result *= num
+            "division" -> result /= num
+            "exponent" -> result = result.pow(num)
+            "module" -> result %= num
         }
-        "minus" -> {
-            result = numbers[0]
-            for (i in 1 until numbers.size) {
-                result -= numbers[i]
-            }
+        if (op != null) {
+            op = operations[i].operator
         }
-        "multiplication" -> {
-            result = 1f
-            for (number in numbers) {
-                result *= number
-            }
-        }
-        "division" -> {
-            result = numbers[0]
-            for (i in 1 until numbers.size) {
-                result /= numbers[i]
-            }
-        }
-        "exponent" -> {
-            result = numbers[0]
-            for (i in 1 until numbers.size) {
-                result = result.pow(numbers[i])
-            }
-        }
-        "module" -> {
-            result = numbers[0]
-            for (i in 1 until numbers.size) {
-                result %= numbers[i]
-            }
-        }
-        else -> result = 0.0f
     }
+    operations.clear()
     return result
 }
 
