@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,32 +53,22 @@ fun Calculator() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppBar()
+        Spacer(modifier = Modifier.height(30.dp))
         Text(
-            text = "Calculate a number",
-            fontSize = 15.sp
+            text = "Instrucciones:\n 1. Agrega un número\n 2. Selecciona un operador\n 3. Agrega cuántos números desee\n 5. Presiona el botón de calcular\n\n Los operadores de izquierda a derecha son: Adición, Resta, Multiplicación, División, Potencia y Modulo",
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp
         )
+        Spacer(modifier = Modifier.height(30.dp))
         NumberTextField(number)
         Spacer(modifier = Modifier.height(30.dp))
         ListOfOperators()
         Spacer(modifier = Modifier.height(30.dp))
-        Text(text = "The operator selected is $operatorType")
-        Spacer(modifier = Modifier.height(30.dp))
 
         if (operatorClicked && number.value.isNotEmpty()) {
             operations.add(OperationElement(number.value.toFloat(), operatorType))
-
             operatorClicked = false
             number.value = ""
-        }
-
-        // for development purposes, print the operations array
-        Text(text = "Numbers in the array")
-        if (operations.isNotEmpty()) {
-            for (operation in operations) {
-                if (operation.operator != null) {
-                    Text(text = "${operation.number} ${operation.operator} ")
-                }
-            }
         }
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -85,7 +76,7 @@ fun Calculator() {
         Spacer(modifier = Modifier.height(30.dp))
 
         Text(
-            text = "The result is ${String.format("%.2f", calculatedValue.value)}",
+            text = "El resultado es ${String.format("%.2f", calculatedValue.value)}",
             fontSize = 20.sp
         )
     }
